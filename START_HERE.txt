@@ -1,0 +1,75 @@
+SLAY THE PRINCESS — ACHIEVEMENT GUIDE v0.2.3
+Compiled/archive menu detection repair for the supplied Steam build 19054935.
+
+INSTALL / UPDATE
+1. Close Slay the Princess completely.
+2. Right-click the ZIP and choose Extract All into a fresh folder.
+3. Run 1_Install_Guide.cmd. It replaces the older guide automatically.
+4. Launch the game through Steam.
+5. Press F8. The panel should say v0.2.3.
+6. For a fresh test, select a recommended run and Start this guided run.
+7. Advance the narration normally. At the first choice, one option should be
+   gold and the guide should show Choice 1 / ... instead of an unmapped warning.
+
+No uninstall or manual file deletion is needed. The installer backs up the old
+mod and removes stale compiled mod files. It does not change story files or saves.
+
+WHAT CHANGED
+- Fixes the reproduced .rpy/.rpyc mismatch: Ren'Py reports compiled or archived
+  menus with .rpyc filenames, which v0.2.1 did not recognize.
+- Matches the actual loaded menu against all 556 checked compiled story menus.
+  It uses the compiled identity and checks every option/condition, rather than
+  relying only on the debug filename and line number. It can recover a unique
+  menu after recompilation; ambiguous or changed menus remain unhighlighted.
+- Normalizes Windows capitalization, separators and compiled/source filenames.
+- Records the exact menu lookup result and validation reason automatically.
+  The troubleshooting ZIP now includes this bounded guide-specific log.
+- Shows v0.2.3 in the F8 panel so the running version is clear.
+- F10 now hides/shows the guide. F9 remains the game's normal Quick Load key.
+- The 562 achievement/gallery paths and their conditions are unchanged.
+
+SAVE AND CONTINUE LATER
+Make a normal manual save before quitting. Next time, launch through Steam and
+LOAD that save. The route and guide cursor are saved with the game; guidance
+resynchronizes at the next choice. If you paused the guide deliberately, use
+F8 > Resume guide. Starting a guided run is for a fresh game, not for resuming.
+Saves made with the previous guide can still be used. If you followed another
+branch while guidance was unavailable, F8 may offer Join at the current choice
+for a compatible route. A loaded save must still satisfy that route's conditions.
+
+CONTROLS
+F8: guide panel / refresh Steam and gallery progress.
+F10: show or hide the small guide panel.
+The game retains F9 Quick Load.
+
+WHAT THE GUIDE DOES
+It reads live Steam achievement status and gallery flags, groups compatible
+rewards into valid runs, and ranks new achievements ahead of gallery progress.
+You advance dialogue and click every choice yourself. Normal game logic awards
+all achievements, including gallery completion. The guide never grants awards,
+writes story/gallery flags, or clicks options for you.
+
+Finish the dialogue after the last planned choice: the actual achievement
+trigger can be later in the scene. Then open F8 to refresh progress.
+
+Steam must be available to confirm achievements. Unknown entries stay in the
+plan. A changed story-file fingerprint disables guidance. One mapped scene
+intentionally closes the game; follow the guide's relaunch instruction there.
+
+IF GUIDANCE STOPS AGAIN
+Leave the game at the failing choice briefly, then close it normally.
+Run 2_Collect_Troubleshooting.cmd in THIS v0.2.3 folder and upload the resulting
+UPLOAD_THIS_STP_Troubleshooting_....zip. The new runtime diagnostic file is written as you
+play; there is no extra logging switch to enable. The collector opens its folder.
+It collects game/error logs and guide diagnostics, not saves or game assets.
+
+REMOVE
+Close the game and run 3_Uninstall_Guide.cmd. Original scripts and saves remain.
+The small diagnostic logs can remain in the game folder for troubleshooting.
+
+TESTING LIMIT
+This update passed route, menu-matching, installer, and isolated Ren'Py 8.0.3
+integration checks, including a save/load test. The old lookup failure was
+reproduced with the real engine loading compiled-only scripts. This build passes
+source, compiled-only and archive loading tests and records future failures.
+Your actual Windows/Steam playtest is still required. See VALIDATION.txt.

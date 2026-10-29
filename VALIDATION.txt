@@ -1,0 +1,72 @@
+VALIDATION — v0.2.3, 25 October 2026
+
+Reproduced defect
+The supplied troubleshooting report shows v0.2.1 and Ren'Py 8.0.3 initializing
+successfully, but lacks menu-location telemetry. With the matching engine, the
+old adapter passes all 562 source-file route starts. Loading the same fixture
+as compiled-only .rpyc changes its reported filename and makes the old adapter
+return None, producing the reported outside-map warning. Archived scripts also
+report .rpyc names. The old .rpy-only lookup missed those equivalent filenames.
+
+Final compiled/archive integration — Ren'Py 8.0.3.22090809
+PASS: all 562 route starts using loose source files.
+PASS: all 562 route starts using compiled-only files.
+PASS: all 562 route starts using an RPA-3.0 archive.
+These tests use the real loader, Menu.execute, argument callback and ChoiceReturn
+objects. They capture display; they are not full Steam-game playthroughs.
+The asset-free fixture has its own valid source manifest and menu fingerprint.
+
+Menu and route checks
+PASS: all 556 modeled menus cross-check against the supplied original compiled
+      menus and their option lists. The locator resolves all 556 with the
+      public debug-location API deliberately returning unknown/0.
+PASS: 8 portable runtime regressions: all menu locations in source/compiled/path
+      variants, all 562 first choices through menu_callback, story-state isolation,
+      save/load resynchronization, pause and old-callback chaining, unknown-menu
+      refusal, 32-event diagnostic bounds/privacy and unwritable-log handling.
+PASS: 8 locator regressions: underlying engine/exports facade, missing debug
+      positions, Windows normalization, changed compiled names/line positions,
+      full-menu fingerprint matching, ambiguous/changed/unrelated-menu refusal.
+PASS: 5 route regressions: all 562 traces, all declared rewards, 130 direct
+      achievement IDs plus all 464 gallery flags, event tables, private-state
+      isolation and rejection of invalid steps.
+PASS: full source fingerprint verification against the supplied scan.
+The model, route traces/events, catalog, core interpreter and source fingerprints
+are unchanged from the prior releases; the native menu index is additive.
+
+Rendered UI and actual save/load — matching engine, isolated test project
+PASS: user-requested full_restart preserves the selected route.
+PASS: with the public location API unavailable, the actual menu still matches
+      and exactly one item is recommended.
+PASS: inspected a rendered screenshot using the original choice-vbox placement
+      and a styled scrollbar: the gold option is in view and agrees with the HUD.
+PASS: actual engine save/load retains route/cursor, invokes after_load,
+      re-matches the menu and keeps the recommendation. Selecting it advances
+      cursor 0 to 1 with guidance unpaused.
+The UI fixture uses exact first-menu captions/conditions, inert branch bodies
+and placeholder presentation. Test-only saving/loading/clicks are absent from
+the production adapter. No Steam account or real achievements are used.
+
+Installer and collector — PowerShell 7.4.7, temporary mock Steam folder
+PASS: immediate marker-handle release, Windows path deduplication and lock checks.
+PASS: scanner migration, repeat installation, backup and uninstall.
+PASS: recovery from an injected final-write failure after scanner replacement;
+      previous mod/scanner files and receipt are restored, then retry succeeds.
+PASS: current runtime JSON is collected; ownership/size checks and test secret
+      redaction pass. Original story/save fixture bytes are preserved.
+Windows PowerShell 5.1 was not available for direct execution; compatible syntax
+is retained. No user's installed game was changed during these tests.
+
+Portable checks (optional; not required to install)
+python developer_tests/test_runtime.py
+python developer_tests/test_locator.py
+python developer_tests/test_routes.py
+python developer_tests/test_engine_location.py /path/to/renpy-8.0.3-sdk
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File developer_tests/test_installer.ps1
+
+Practical limit
+A playtest on the user's Windows Steam installation is still needed. The
+source-build check remains active, Steam must confirm achievement ownership,
+and route ranking is greedy rather than a proof of minimal playthrough count.
+The earlier independent original-story/gallery replay is historical evidence;
+this update did not regenerate the achievement paths.

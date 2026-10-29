@@ -1,0 +1,3 @@
+# Preserve the tested package's bytes and line endings for SHA256SUMS.txt.
+* -text
+

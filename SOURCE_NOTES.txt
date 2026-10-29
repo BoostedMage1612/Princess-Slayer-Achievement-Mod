@@ -1,0 +1,66 @@
+SOURCE AND DESIGN NOTES — v0.2.3
+
+Unofficial personal-use guide for the supplied Slay the Princess installation.
+Game content belongs to its creators. No game art, audio, fonts, executables,
+SDK, Steam credentials, saves, or original game-script archive is included.
+
+Matched input: Steam build 19054935, Ren'Py 8.0.3.22090809; the user's original
+scan with 137 readable .rpy files and their compiled scripts.
+131 Steam achievement IDs; gallery requirement: 25 parents + 439 images.
+562 decision traces. The existing model, paths, events, catalog and source-file
+fingerprints are unchanged from v0.2.1.
+
+Files
+mod/zz_stp_achievement_guide.rpy: guide screens and callback installation.
+mod/python-packages/stp_guide/controller.py: achievement inventory, route ranking,
+private shadow-state validation and guide-only save/rollback metadata.
+mod/python-packages/stp_guide/location.py: compiled menu recognition.
+mod/python-packages/stp_guide/core.py: inert data interpreter; never executes
+original game snippets.
+mod/stp_guide_data.json: original route data plus a runtime index for 556 menus.
+Setup.ps1 and .cmd files: owned-file install/update, diagnostics and removal.
+developer_tests: portable runtime, route and installer regression checks.
+
+Menu recognition
+The runtime index was derived from the supplied compiled scripts and cross-checked
+against every modeled menu. It records each native node identity and a SHA-256
+fingerprint of all raw captions, condition expressions, and caption/branch slots.
+Conditions are hashed as text, not executed by the locator. Matching is tried by
+native identity + fingerprint, location + fingerprint, or a unique full menu
+fingerprint within the same normalized source file. It does not match on one
+visible caption or guess between duplicate menus. Ren'Py's exports facade and
+its underlying engine module are both supported. If a different engine exposes
+only the documented location API, an exact normalized location is the fallback.
+The existing source-hash checks and remaining-route replay still apply.
+
+Diagnostics
+The latest package's stp_guide_diagnostics.json format is retained. It contains
+32 recent guide events with a product/version marker, route/cursor, current and
+expected menu locations, recognition method/fingerprint, recommendation and
+validation reasons. It does not contain account IDs, saves or full story state.
+Only known relative source paths or basenames are logged. Writes are atomic,
+unrecognized existing files are left alone, and I/O errors never stop play.
+The existing collector includes the file after checking ownership and size.
+
+Save/rollback and safety
+The stpg_route_id, stpg_cursor, stpg_paused and stpg_hud defaults remain compatible
+with earlier saves. Only guide metadata is changed. A namespaced session entry
+carries the user's selected route through a fresh start. The guide never awards,
+clears or synchronizes achievements; changes story/gallery flags; auto-clicks;
+or calls game save/load APIs. The user's original choice action remains intact.
+The guide hide key is now F10 because the original game maps F9 to Quick Load.
+
+Historical route construction
+The original release parsed the supplied scripts with matching Ren'Py, modeled
+conditions as inert expressions, and explored branches in private dictionaries.
+Its reported independent source-logic/gallery verification is historical evidence;
+this repair reran the packaged route checks and did not regenerate those paths.
+
+Limits
+Exact supplied story build only. Route ranking is greedy, not globally optimal;
+counts measure decisions, not reading time. Arbitrary divergent saves are not
+guaranteed to have a joinable route. Steam connection is needed for confirmed
+achievement status. The panel may reveal spoilers. Other menu mods can conflict.
+The previous source-only tests missed the compiled/archive .rpyc filename
+rewrite. The old adapter now reproduces that mismatch under the real loader;
+the new adapter passes source, compiled-only and archived-menu checks.
